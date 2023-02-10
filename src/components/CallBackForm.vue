@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axios from "axios";
+import { ref } from "vue";
 import { IMaskDirective as vIMaskDirective } from "vue-imask";
 
 defineProps<{
@@ -29,14 +30,14 @@ const cities = [
 
 const mask = { mask: "{+7} (000) 000-00-00" };
 
+const phone = ref("");
+
 async function sendRequest(event: Event) {
   const form = event.target as HTMLFormElement;
 
   const formData = new FormData(form);
 
   const data = Object.fromEntries(formData.entries());
-
-  data.phone = (data.phone as string).replace(/[^\d|+]/g, "");
 
   const { data: response } = await axios({
     method: "POST",
@@ -59,7 +60,7 @@ async function sendRequest(event: Event) {
     @click.self="emit('close-form')"
   >
     <form
-      class="flex flex-col gap-y-6 bg-white rounded-lg p-6 m-5"
+      class="flex flex-col gap-y-6 bg-white rounded-lg p-6 m-5 relative"
       @submit.prevent="sendRequest"
     >
       <h2>Заказать звонок</h2>
@@ -80,13 +81,19 @@ async function sendRequest(event: Event) {
         <div class="flex flex-col gap-y-2">
           <label for="phone">Телефон*</label>
           <input
+            v-model="phone"
             required
             id="phone"
             type="text"
-            name="phone"
             placeholder="+7 (999) 999-88-77"
+            maxlength="18"
             pattern="\+\d \(\d{3}\) \d{3}-\d{2}-\d{2}"
             v-i-mask-directive="mask"
+          />
+          <input
+            type="hidden"
+            name="phone"
+            :value="phone.replace(/[^\d|+]/g, '')"
           />
         </div>
         <div class="flex flex-col gap-y-2">
@@ -118,6 +125,12 @@ async function sendRequest(event: Event) {
           Отправить
         </button>
       </div>
+      <img
+        src="/x-mark.svg"
+        alt="x-mark"
+        @click="emit('close-form')"
+        class="absolute top-8 right-5 cursor-pointer h-5 w-5"
+      />
     </form>
   </div>
 </template>
