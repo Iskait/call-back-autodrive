@@ -15,7 +15,11 @@ const emit = defineEmits<{
   >
     <div class="bg-white p-10 rounded-lg relative">
       <div v-html="responseFromServer"></div>
-      <span @click="emit('close-form')" class="absolute top-5 right-5">X</span>
+      <span
+        @click="emit('close-form')"
+        class="absolute top-5 right-5 cursor-pointer"
+        >X</span
+      >
     </div>
   </div>
 </template>
