@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    @apply font-inter text-primary font-medium
+  }
+  h2 {
+    @apply text-2xl
+  }
+  label {
+    @apply text-gray
+  }
+  input, select {
+    @apply border border-gray/30 rounded-lg px-3 py-2 outline-none valid:border-orange-300
+  }
+  input {
+    @apply font-normal placeholder:text-tertiary 
+  }
+  select {
+    @apply cursor-pointer
+  }
+}
+
+@layer components {
+  .button {
+    @apply py-2 px-4 w-full sm:w-max text-secondary rounded-md
+  }
+}
